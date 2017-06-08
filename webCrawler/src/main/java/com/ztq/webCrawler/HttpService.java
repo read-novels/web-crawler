@@ -90,8 +90,9 @@ public class HttpService {
 
 	private static String getNextUrl(String page) {
 		Document parse = Jsoup.parse(page);
-		Elements elementsByClass2 = parse.getElementsByClass("am-btn-default");
-		Iterator<Element> iterator = elementsByClass2.iterator();
+		Elements elementsContainingOwnText = parse.getElementsContainingOwnText("下一章");
+//		Elements elementsByClass2 = parse.getElementsByClass("am-btn-default");
+		Iterator<Element> iterator = elementsContainingOwnText.iterator();
 		Element next = null;
 		while (iterator.hasNext()) {
 			next = iterator.next();
@@ -111,8 +112,11 @@ public class HttpService {
 		Elements title = parse.getElementsByTag("h3");
 		sb.append("\t" + title.text());
 		sb.append("\r\n");
-		Elements elementsByClass = parse.getElementsByClass("am-article-bd");
-		Iterator<Element> iterator = elementsByClass.iterator();
+//		Elements elementsByClass = parse.getElementsByClass("am-article-bd");
+//		Elements elementsByClass = parse.getElementsByClass("content");
+		Element elementById = parse.getElementById("content");
+//		Iterator<Element> iterator = elementsByClass.iterator();
+		Iterator<Element> iterator = elementById.children().iterator();
 		Element next = iterator.next();
 		List<Node> childNodes = next.childNodes();
 		if (childNodes != null && !childNodes.isEmpty()) {
